@@ -3,607 +3,254 @@
   "info": {
     "description": "This is a API Challenge Swagger Documentation",
     "version": "1.0.0",
-    "title": "Wace API",
+    "title": "Joca API",
     "contact": {
       "email": "acaleroespitia@gmail.com"
     }
   },
   "schemes": ["http"],
-  "host": "localhost:5000",
+  "host": "localhost:3000",
   "basePath": "/api",
-  "securityDefinitions": {
-    "Authorization": {
-      "type": "apiKey",
-      "name": "Authorization",
-      "in": "header"
-    }
-  },
   "paths": {
-    "/auth/login": {
+    "/trips/v1": {
       "post": {
-        "tags": ["auth"],
-        "summary": "Login to api, create token!",
-        "description": "Login to api, create token!",
+        "tags": ["trips"],
+        "summary": "Create a new trip",
+        "description": "Create a new trip. The examples are for information only, they do not present real data.",
         "produces": ["application/json"],
         "consumes": ["application/json"],
         "parameters": [
           {
             "in": "body",
             "name": "body",
-            "description": "Login object",
+            "description": "Readings object",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/Login"
+              "$ref": "#/definitions/ReadingList"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "successful operation",
+            "description": "Success",
             "schema": {
-              "$ref": "#/definitions/LoginResponse"
+              "$ref": "#/definitions/Trip"
             }
           },
-          "400": {
-            "description": "Invalid status value",
+          "422": {
+            "description": "Validation Error.",
             "schema": {
-              "$ref": "#/definitions/InvalidResponse"
-            }
-          }
-        }
-      }
-    },
-    "/users": {
-      "post": {
-        "tags": ["users"],
-        "summary": "Create new user!",
-        "description": "Service to create new user.",
-        "produces": ["application/json"],
-        "consumes": ["application/json"],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "description": "User object",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/User"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "$ref": "#/definitions/LoginResponse"
-            }
-          },
-          "400": {
-            "description": "Invalid status value",
-            "schema": {
-              "$ref": "#/definitions/InvalidResponse"
+              "$ref": "#/definitions/ValidationError"
             }
           }
         }
       },
       "get": {
-        "tags": ["users"],
-        "summary": "Get all users!",
-        "description": "Service to retrieve all users.",
+        "tags": ["trips"],
+        "summary": "Get the trips list",
+        "description": "Get the trips list. The examples are for information only, they do not present real data.",
         "produces": ["application/json"],
         "parameters": [
           {
+            "name": "start_gte",
             "in": "query",
-            "name": "search",
-            "description": "Search word to filter results",
-            "schema": {
-              "type": "string"
-            }
+            "description": "down filter for the trip start",
+            "nullable": true,
+            "type": "integer"
           },
           {
+            "name": "start_lte",
             "in": "query",
-            "name": "fields",
-            "description": "Array of fields names to apply filter.",
-            "schema": {
-              "type": "array"
-            }
+            "description": "up filter for the trip start",
+            "nullable": true,
+            "type": "integer"
+          },
+          {
+            "name": "distance_gte",
+            "in": "query",
+            "description": "down filter for the trip distance",
+            "nullable": true,
+            "type": "integer",
+            "default": 0.05
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Number of trips to retrieve",
+            "nullable": true,
+            "type": "number",
+            "default": 20
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "Offset of trips to retrieve",
+            "nullable": true,
+            "type": "number",
+            "default": 0
           }
         ],
         "responses": {
           "200": {
-            "description": "successful operation",
+            "description": "Success",
             "schema": {
-              "$ref": "#/definitions/LoginResponse"
-            }
-          },
-          "400": {
-            "description": "Invalid status value",
-            "schema": {
-              "$ref": "#/definitions/InvalidResponse"
+              "$ref": "#/definitions/TripList"
             }
           }
-        },
-        "security": [
-          {
-            "Authorization": []
-          }
-        ]
-      }
-    },
-    "/users/{id}": {
-      "get": {
-        "tags": ["users"],
-        "summary": "Get user by id user!",
-        "description": "Service to retrieve one user by id user.",
-        "produces": ["application/json"],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "user id that needs",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "$ref": "#/definitions/Response"
-            }
-          },
-          "400": {
-            "description": "Invalid status value",
-            "schema": {
-              "$ref": "#/definitions/InvalidResponse"
-            }
-          }
-        },
-        "security": [
-          {
-            "Authorization": []
-          }
-        ]
-      },
-      "put": {
-        "tags": ["users"],
-        "summary": "Update one user by id!",
-        "description": "Service to update user.",
-        "produces": ["application/json"],
-        "consumes": ["application/json"],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "user id that needs to be updated",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "body",
-            "description": "User object",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/User"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "$ref": "#/definitions/Response"
-            }
-          },
-          "400": {
-            "description": "Invalid status value",
-            "schema": {
-              "$ref": "#/definitions/InvalidResponse"
-            }
-          }
-        },
-        "security": [
-          {
-            "Authorization": []
-          }
-        ]
-      },
-      "delete": {
-        "tags": ["users"],
-        "summary": "Delete a user!",
-        "description": "Service to delete one user.",
-        "produces": ["application/json"],
-        "consumes": ["application/json"],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "user id that needs to be deleted",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "$ref": "#/definitions/Response"
-            }
-          },
-          "400": {
-            "description": "Invalid status value",
-            "schema": {
-              "$ref": "#/definitions/InvalidResponse"
-            }
-          }
-        },
-        "security": [
-          {
-            "Authorization": []
-          }
-        ]
-      }
-    },
-    "/payments-source/{id}": {
-      "get": {
-        "tags": ["payment sources"],
-        "summary": "Get payment sources by id!",
-        "description": "Service to retrieve one payment sources by id.",
-        "produces": ["application/json"],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "payment sources id",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "$ref": "#/definitions/Response"
-            }
-          },
-          "400": {
-            "description": "Invalid status value",
-            "schema": {
-              "$ref": "#/definitions/InvalidResponse"
-            }
-          }
-        },
-        "security": [
-          {
-            "Authorization": []
-          }
-        ]
-      }
-    },
-    "/payments-source/acceptance-token": {
-      "get": {
-        "tags": ["payment sources"],
-        "summary": "Get acceptance token!",
-        "description": "Service to retrieve acceptance token.",
-        "produces": ["application/json"],
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "$ref": "#/definitions/Response"
-            }
-          },
-          "400": {
-            "description": "Invalid status value",
-            "schema": {
-              "$ref": "#/definitions/InvalidResponse"
-            }
-          }
-        },
-        "security": [
-          {
-            "Authorization": []
-          }
-        ]
-      }
-    },
-    "/payments-source": {
-      "post": {
-        "tags": ["payment sources"],
-        "summary": "Create new payment source!",
-        "description": "Service to create new payment source.",
-        "produces": ["application/json"],
-        "consumes": ["application/json"],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "description": "Payment Source object",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/PaymentSource"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "$ref": "#/definitions/Response"
-            }
-          },
-          "400": {
-            "description": "Invalid status value",
-            "schema": {
-              "$ref": "#/definitions/InvalidResponse"
-            }
-          }
-        },
-        "security": [
-          {
-            "Authorization": []
-          }
-        ]
-      }
-    },
-    "/rides/request/{userId}": {
-      "post": {
-        "tags": ["rides"],
-        "summary": "Request new ride by user!",
-        "description": "Service to request new ride for user.",
-        "produces": ["application/json"],
-        "consumes": ["application/json"],
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "description": "User id request ride",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "body",
-            "description": "Ride object",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Ride"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "$ref": "#/definitions/Response"
-            }
-          },
-          "400": {
-            "description": "Invalid status value",
-            "schema": {
-              "$ref": "#/definitions/InvalidResponse"
-            }
-          }
-        },
-        "security": [
-          {
-            "Authorization": []
-          }
-        ]
-      }
-    },
-    "/rides/{id}": {
-      "get": {
-        "tags": ["rides"],
-        "summary": "Get ride by Id!",
-        "description": "Service to retrieve ride by Id.",
-        "produces": ["application/json"],
-        "consumes": ["application/json"],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "Ride id to get",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "$ref": "#/definitions/Response"
-            }
-          },
-          "400": {
-            "description": "Invalid status value",
-            "schema": {
-              "$ref": "#/definitions/InvalidResponse"
-            }
-          }
-        },
-        "security": [
-          {
-            "Authorization": []
-          }
-        ]
-      }
-    },
-    "/rides/finish/{id}": {
-      "put": {
-        "tags": ["rides"],
-        "summary": "Finished ride and create transaction!",
-        "description": "Service to finished ride and create transaction related with ride.",
-        "produces": ["application/json"],
-        "consumes": ["application/json"],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "Ride id to finish",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "body",
-            "description": "Ride object",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Ride"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "$ref": "#/definitions/Response"
-            }
-          },
-          "400": {
-            "description": "Invalid status value",
-            "schema": {
-              "$ref": "#/definitions/InvalidResponse"
-            }
-          }
-        },
-        "security": [
-          {
-            "Authorization": []
-          }
-        ]
+        }
       }
     }
   },
   "definitions": {
-    "Login": {
+    "Trip": {
       "type": "object",
-      "required": ["password", "email"],
       "properties": {
-        "email": {
+        "id": {
           "type": "string",
-          "default": "test@wace.co"
+          "description": "trip id"
         },
-        "password": {
-          "type": "string",
-          "default": "123456"
+        "start": {
+          "type": "object",
+          "description": "trip start data",
+          "properties": {
+            "time": {
+              "type": "integer"
+            },
+            "lat": {
+              "type": "number"
+            },
+            "lon": {
+              "type": "number"
+            },
+            "address": {
+              "type": "string"
+            }
+          }
+        },
+        "end": {
+          "type": "object",
+          "description": "trip end data",
+          "properties": {
+            "time": {
+              "type": "integer"
+            },
+            "lat": {
+              "type": "number"
+            },
+            "lon": {
+              "type": "number"
+            },
+            "address": {
+              "type": "string"
+            }
+          }
+        },
+        "distance": {
+          "type": "number",
+          "description": "distance of the trip in kilometers"
+        },
+        "duration": {
+          "type": "integer",
+          "description": "duration of the trips in minutes"
+        },
+        "overspeedsCount": {
+          "type": "integer",
+          "description": "count of overspeeds in the trip"
+        },
+        "boundingBox": {
+          "type": "array",
+          "description": "the bounding box of the trip",
+          "items": {
+            "type": "object",
+            "properties": {
+              "lat": {
+                "type": "number"
+              },
+              "lon": {
+                "type": "number"
+              }
+            }
+          }
         }
       }
     },
-    "User": {
+    "TripList": {
       "type": "object",
-      "required": ["name", "email", "password", "address", "phone", "role"],
       "properties": {
-        "name": {
-          "type": "string",
-          "default": "Test Wace"
-        },
-        "email": {
-          "type": "string",
-          "default": "test@wace.co"
-        },
-        "password": {
-          "type": "string",
-          "default": "123456"
-        },
-        "address": {
-          "type": "string",
-          "default": "Test address"
-        },
-        "phone": {
-          "type": "string",
-          "default": "3100000000"
-        },
-        "role": {
-          "type": "string",
-          "description": "User role",
-          "enum": ["rider", "driver"]
+        "trips": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Trip"
+          }
         }
       }
     },
-    "PaymentSource": {
+    "Reading": {
       "type": "object",
-      "required": [
-        "customerId",
-        "customerEmail",
-        "acceptanceToken",
-        "type",
-        "token"
-      ],
       "properties": {
-        "customerId": {
-          "type": "string",
-          "default": "riderId"
+        "time": {
+          "type": "integer",
+          "description": "timestamp of the reading"
         },
-        "customerEmail": {
-          "type": "string",
-          "default": "rider1@wace.co"
-        },
-        "acceptanceToken": {
-          "type": "string",
-          "default": "wace_acceptance_token"
-        },
-        "token": {
-          "type": "string",
-          "default": "wace_source_token"
-        },
-        "type": {
-          "type": "string",
-          "default": "CARD"
-        }
-      }
-    },
-    "Ride": {
-      "type": "object",
-      "required": ["location"],
-      "properties": {
         "location": {
           "type": "object",
-          "default": { "latitude": 4.605831, "longitude": -74.079264 }
-        }
-      }
-    },
-    "Response": {
-      "type": "object",
-      "properties": {
-        "message": {
-          "type": "string"
+          "description": "latitude and longitude of the reading",
+          "properties": {
+            "lat": {
+              "type": "number"
+            },
+            "lon": {
+              "type": "number"
+            }
+          }
         },
-        "data": {
-          "type": "object"
-        }
-      }
-    },
-    "LoginResponse": {
-      "type": "object",
-      "properties": {
-        "token": {
-          "type": "string"
+        "speed": {
+          "type": "integer",
+          "description": "speed of the reading"
         },
-        "message": {
-          "type": "string"
+        "speedLimit": {
+          "type": "integer",
+          "description": "speed limit for the reading location"
         }
       }
     },
-    "GetUsers": {
+    "ReadingList": {
       "type": "object",
       "properties": {
-        "data": {
-          "type": "array"
-        },
-        "message": {
-          "type": "string"
+        "readings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Reading"
+          }
         }
       }
     },
-    "InvalidResponse": {
+    "ValidationError": {
       "type": "object",
       "properties": {
-        "message": {
-          "type": "string"
+        "error": {
+          "type": "object",
+          "description": "Given attributes are invalid for requested action",
+          "properties": {
+            "statusCode": {
+              "type": "integer",
+              "description": "HTTP Status Code"
+            },
+            "errorCode": {
+              "type": "integer",
+              "description": "Business Error Code (optional)"
+            },
+            "srcMessage": {
+              "type": "string",
+              "description": "Error description (en_US)",
+              "example": "Invalid attribute"
+            },
+            "translatedMessage": {
+              "type": "string",
+              "description": "Translated error description",
+              "example": "Atributo inválido"
+            }
+          }
         }
       }
     }

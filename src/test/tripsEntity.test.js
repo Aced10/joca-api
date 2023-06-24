@@ -154,7 +154,7 @@ describe("createTrip", () => {
     const readings = null;
 
     const expectedResponse = {
-      code: 400,
+      code: 422,
       message: "Readings is required!",
     };
 
@@ -168,7 +168,7 @@ describe("createTrip", () => {
     const readings = "not an array";
 
     const expectedResponse = {
-      code: 400,
+      code: 422,
       message: "The readings must be an array with at least five positions!",
     };
 
@@ -188,7 +188,7 @@ describe("createTrip", () => {
     ];
 
     const expectedResponse = {
-      code: 400,
+      code: 422,
       message: "Every reading needs to have a time property!",
     };
 

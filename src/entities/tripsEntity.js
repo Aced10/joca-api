@@ -89,7 +89,7 @@ const createTrip = async (readings) => {
     };
   } catch (error) {
     return {
-      code: error.name === "Error" ? 400 : 500,
+      code: error.name === "Error" ? 422 : 500,
       message: error.message,
     };
   }
