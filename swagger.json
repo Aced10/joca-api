@@ -1,0 +1,611 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "This is a API Challenge Swagger Documentation",
+    "version": "1.0.0",
+    "title": "Wace API",
+    "contact": {
+      "email": "acaleroespitia@gmail.com"
+    }
+  },
+  "schemes": ["http"],
+  "host": "localhost:5000",
+  "basePath": "/api",
+  "securityDefinitions": {
+    "Authorization": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+  "paths": {
+    "/auth/login": {
+      "post": {
+        "tags": ["auth"],
+        "summary": "Login to api, create token!",
+        "description": "Login to api, create token!",
+        "produces": ["application/json"],
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Login object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Login"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/LoginResponse"
+            }
+          },
+          "400": {
+            "description": "Invalid status value",
+            "schema": {
+              "$ref": "#/definitions/InvalidResponse"
+            }
+          }
+        }
+      }
+    },
+    "/users": {
+      "post": {
+        "tags": ["users"],
+        "summary": "Create new user!",
+        "description": "Service to create new user.",
+        "produces": ["application/json"],
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "User object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/LoginResponse"
+            }
+          },
+          "400": {
+            "description": "Invalid status value",
+            "schema": {
+              "$ref": "#/definitions/InvalidResponse"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["users"],
+        "summary": "Get all users!",
+        "description": "Service to retrieve all users.",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "search",
+            "description": "Search word to filter results",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "fields",
+            "description": "Array of fields names to apply filter.",
+            "schema": {
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/LoginResponse"
+            }
+          },
+          "400": {
+            "description": "Invalid status value",
+            "schema": {
+              "$ref": "#/definitions/InvalidResponse"
+            }
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "tags": ["users"],
+        "summary": "Get user by id user!",
+        "description": "Service to retrieve one user by id user.",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "user id that needs",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "400": {
+            "description": "Invalid status value",
+            "schema": {
+              "$ref": "#/definitions/InvalidResponse"
+            }
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      },
+      "put": {
+        "tags": ["users"],
+        "summary": "Update one user by id!",
+        "description": "Service to update user.",
+        "produces": ["application/json"],
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "user id that needs to be updated",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "User object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "400": {
+            "description": "Invalid status value",
+            "schema": {
+              "$ref": "#/definitions/InvalidResponse"
+            }
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": ["users"],
+        "summary": "Delete a user!",
+        "description": "Service to delete one user.",
+        "produces": ["application/json"],
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "user id that needs to be deleted",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "400": {
+            "description": "Invalid status value",
+            "schema": {
+              "$ref": "#/definitions/InvalidResponse"
+            }
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/payments-source/{id}": {
+      "get": {
+        "tags": ["payment sources"],
+        "summary": "Get payment sources by id!",
+        "description": "Service to retrieve one payment sources by id.",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "payment sources id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "400": {
+            "description": "Invalid status value",
+            "schema": {
+              "$ref": "#/definitions/InvalidResponse"
+            }
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/payments-source/acceptance-token": {
+      "get": {
+        "tags": ["payment sources"],
+        "summary": "Get acceptance token!",
+        "description": "Service to retrieve acceptance token.",
+        "produces": ["application/json"],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "400": {
+            "description": "Invalid status value",
+            "schema": {
+              "$ref": "#/definitions/InvalidResponse"
+            }
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/payments-source": {
+      "post": {
+        "tags": ["payment sources"],
+        "summary": "Create new payment source!",
+        "description": "Service to create new payment source.",
+        "produces": ["application/json"],
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Payment Source object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PaymentSource"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "400": {
+            "description": "Invalid status value",
+            "schema": {
+              "$ref": "#/definitions/InvalidResponse"
+            }
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/rides/request/{userId}": {
+      "post": {
+        "tags": ["rides"],
+        "summary": "Request new ride by user!",
+        "description": "Service to request new ride for user.",
+        "produces": ["application/json"],
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "User id request ride",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Ride object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Ride"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "400": {
+            "description": "Invalid status value",
+            "schema": {
+              "$ref": "#/definitions/InvalidResponse"
+            }
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/rides/{id}": {
+      "get": {
+        "tags": ["rides"],
+        "summary": "Get ride by Id!",
+        "description": "Service to retrieve ride by Id.",
+        "produces": ["application/json"],
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Ride id to get",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "400": {
+            "description": "Invalid status value",
+            "schema": {
+              "$ref": "#/definitions/InvalidResponse"
+            }
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/rides/finish/{id}": {
+      "put": {
+        "tags": ["rides"],
+        "summary": "Finished ride and create transaction!",
+        "description": "Service to finished ride and create transaction related with ride.",
+        "produces": ["application/json"],
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Ride id to finish",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Ride object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Ride"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "400": {
+            "description": "Invalid status value",
+            "schema": {
+              "$ref": "#/definitions/InvalidResponse"
+            }
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "Login": {
+      "type": "object",
+      "required": ["password", "email"],
+      "properties": {
+        "email": {
+          "type": "string",
+          "default": "test@wace.co"
+        },
+        "password": {
+          "type": "string",
+          "default": "123456"
+        }
+      }
+    },
+    "User": {
+      "type": "object",
+      "required": ["name", "email", "password", "address", "phone", "role"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "default": "Test Wace"
+        },
+        "email": {
+          "type": "string",
+          "default": "test@wace.co"
+        },
+        "password": {
+          "type": "string",
+          "default": "123456"
+        },
+        "address": {
+          "type": "string",
+          "default": "Test address"
+        },
+        "phone": {
+          "type": "string",
+          "default": "3100000000"
+        },
+        "role": {
+          "type": "string",
+          "description": "User role",
+          "enum": ["rider", "driver"]
+        }
+      }
+    },
+    "PaymentSource": {
+      "type": "object",
+      "required": [
+        "customerId",
+        "customerEmail",
+        "acceptanceToken",
+        "type",
+        "token"
+      ],
+      "properties": {
+        "customerId": {
+          "type": "string",
+          "default": "riderId"
+        },
+        "customerEmail": {
+          "type": "string",
+          "default": "rider1@wace.co"
+        },
+        "acceptanceToken": {
+          "type": "string",
+          "default": "wace_acceptance_token"
+        },
+        "token": {
+          "type": "string",
+          "default": "wace_source_token"
+        },
+        "type": {
+          "type": "string",
+          "default": "CARD"
+        }
+      }
+    },
+    "Ride": {
+      "type": "object",
+      "required": ["location"],
+      "properties": {
+        "location": {
+          "type": "object",
+          "default": { "latitude": 4.605831, "longitude": -74.079264 }
+        }
+      }
+    },
+    "Response": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "data": {
+          "type": "object"
+        }
+      }
+    },
+    "LoginResponse": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "GetUsers": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "array"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "InvalidResponse": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
